@@ -1,0 +1,49 @@
+.cell {
+  box-sizing: border-box;
+  border-bottom: 3px solid white;
+  border-right: 3px solid white;
+	text-align: center;
+  height: 70px;
+	width: 40px;
+	font-size: 30px;
+	color: white;
+  cursor: pointer;
+  position:relative;
+}
+
+.table {
+  border-spacing: 0 0;
+  padding: 30px;
+  padding-right: 45px;
+  background-color: green;
+  border-radius: 70px;
+  border: solid gray;
+  border-width: 10px;
+}
+
+.leftmost {
+  border-left: 3px solid white;
+}
+
+.topmost {
+  border-top: 3px solid white;
+}
+
+.blankbottom {
+  border-bottom: none;
+}
+
+.blank {
+  cursor: default;
+}
+
+.chip {
+  height: 0.8em;
+  position:absolute;
+  margin: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  opacity: 0.9;
+}
