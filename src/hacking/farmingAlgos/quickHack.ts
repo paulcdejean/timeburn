@@ -1,5 +1,5 @@
-import { Farm } from "@/Farm";
-import { Network } from "@/network";
+import { Farm } from "@/hacking/Farm";
+import { Network } from "@/hacking/network";
 import { NS } from "@ns";
 
 export function quickHack(ns: NS, network: Network, target: string) : Farm {

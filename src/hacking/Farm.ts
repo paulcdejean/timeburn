@@ -1,6 +1,6 @@
-import { Capabilities, getCapabilityRam } from "@/Capabilities"
+import { Capabilities, getCapabilityRam } from "@/capabilities/Capabilities"
 import { home, homeReservedRam, thisScript } from "@/constants"
-import { Network } from "@/network"
+import { Network } from "@/hacking/network"
 import { BasicHGWOptions, NS, RunOptions } from "@ns"
 import { sleep } from "./utils"
 

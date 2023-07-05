@@ -1,7 +1,7 @@
-import { Capabilities } from "@/Capabilities";
-import { Farm } from "@/Farm";
-import { Network } from "@/network";
-import { growthAnalyzeSecurity, hackAnalyzeSecurity, weakenAnalyze } from "@/utils";
+import { Capabilities } from "@/capabilities/Capabilities";
+import { Farm } from "@/hacking/Farm";
+import { Network } from "@/hacking/network";
+import { growthAnalyzeSecurity, hackAnalyzeSecurity, weakenAnalyze } from "@/hacking/utils";
 import { NS } from "@ns";
 
 export function noodlesHGW(ns: NS, network: Network, target: string) : Farm {

@@ -1,7 +1,7 @@
-import { Capabilities } from "@/Capabilities";
-import { Farm } from "@/Farm";
-import { Network } from "@/network";
-import { growthAnalyzeSecurity, weakenAnalyze } from "@/utils";
+import { Capabilities } from "@/capabilities/Capabilities";
+import { Farm } from "@/hacking/Farm";
+import { Network } from "@/hacking/network";
+import { growthAnalyzeSecurity, weakenAnalyze } from "@/hacking/utils";
 import { NS } from "@ns";
 
 function weakenToMinSecurity(ns: NS, farm: Farm) : boolean {

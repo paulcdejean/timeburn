@@ -1,5 +1,5 @@
 import { NS } from "@ns"
-import { defaultServerFortifyAmount, defaultServerWeakenAmount, home } from "./constants"
+import { defaultServerFortifyAmount, defaultServerWeakenAmount, home } from "../constants"
 
 /**
  * @function sleep Using ns.sleep will cause complaints about concurrent ns function calls.

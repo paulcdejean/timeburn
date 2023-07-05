@@ -1,9 +1,9 @@
-import { Capabilities } from "@/Capabilities"
+import { Capabilities } from "@/capabilities/Capabilities"
 import type { NS } from "@ns";
-import { Network } from "@/network"
-import { prepSingle } from "@/farmingAlgos/prepSingle";
-import { basicHWGW } from "@/farmingAlgos/basicHWGW";
-import { Farm } from "@/Farm";
+import { Network } from "@/hacking/network"
+import { prepSingle } from "@/hacking/farmingAlgos/prepSingle";
+import { basicHWGW } from "@/hacking/farmingAlgos/basicHWGW";
+import { Farm } from "@/hacking/Farm";
 import { foodnstuff, noodles } from "@/constants";
 import { noodlesHGW } from "./noodlesHGW";
 import { quickHack } from "./quickHack";

@@ -1,6 +1,6 @@
 import { NS } from "@ns";
 import * as basicFunctions from "@/staticRam"
-import { baseRamCost } from "./constants";
+import { baseRamCost } from "../constants";
 
 export const enum Capabilities {
   Basic = "basic",

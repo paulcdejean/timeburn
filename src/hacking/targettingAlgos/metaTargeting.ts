@@ -1,7 +1,7 @@
-import { Capabilities } from "@/Capabilities"
+import { Capabilities } from "@/capabilities/Capabilities"
 import type { NS } from "@ns";
-import { Network } from "@/network"
-import { fastestResults } from "@/targettingAlgos/heuristics";
+import { Network } from "@/hacking/network"
+import { fastestResults } from "@/hacking/targettingAlgos/heuristics";
 
 type TargettingAlgo = (ns: NS, network: Network) => string
 

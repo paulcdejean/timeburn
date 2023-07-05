@@ -4,7 +4,7 @@
 
 import type { Server } from "@ns"
 import type { NS } from "@ns";
-import { Capabilities } from "@/Capabilities"
+import { Capabilities } from "@/capabilities/Capabilities"
 import { home, cave, thisScript } from "@/constants"
 import { Cracks } from "./crack";
 

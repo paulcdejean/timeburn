@@ -1,6 +1,6 @@
 import type { NS } from "@ns"
 
-import { Capabilities } from "@/Capabilities"
+import { Capabilities } from "@/capabilities/Capabilities"
 
 import { mainBasic } from "@/mains/mainBasic"
 import * as basicFunctions from "@/staticRam"

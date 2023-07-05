@@ -1,7 +1,7 @@
-import { Farm } from "@/Farm";
-import { prepSingleGrowOnly } from "@/farmingAlgos/prepSingle";
-import { Network } from "@/network";
-import { weakenAnalyze } from "@/utils";
+import { Farm } from "@/hacking/Farm";
+import { prepSingleGrowOnly } from "@/hacking/farmingAlgos/prepSingle";
+import { Network } from "@/hacking/network";
+import { weakenAnalyze } from "@/hacking/utils";
 import { NS, Server } from "@ns";
 
 export function getWeakenCycles(ns: NS, network: Network, target: string) : number {

@@ -1,5 +1,5 @@
 import { noodles } from "@/constants"
-import { Network } from "@/network"
+import { Network } from "@/hacking/network"
 import { NS } from "@ns"
 
 export function fastestResults(ns: NS, network: Network): string {
