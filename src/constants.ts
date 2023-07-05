@@ -4,6 +4,6 @@ export const noodles = "n00dles"
 export const foodnstuff = "foodnstuff"
 export const defaultServerFortifyAmount = 0.002 // Mined from code
 export const defaultServerWeakenAmount = 0.05 // Mined from code
-export const homeReservedRam = 256
+export const homeReservedRam = 128
 export const thisScript = "timeburn.js"
 export const baseRamCost = 1.6 // Mined from code

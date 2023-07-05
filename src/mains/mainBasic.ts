@@ -6,9 +6,21 @@ import RouletteHelper from "@/ui/RouletteHelper/RouletteHelper";
 export const basicFunctions = Object.keys(basicList)
 
 export async function mainBasic(ns: NS): Promise<void> {
-  ns.tprint("React!!!")
+  ns.clearLog()
+  // Cleans up react element after exit
+  ns.atExit(() => {
+    ns.clearLog()
+    ns.closeTail()
+  })
+
+  ns.tail()
+  ns.resizeTail(750, 500)
+  ns.moveTail(350, 450)
+
   ns.printRaw(React.createElement(RouletteHelper))
-  // const elementTest = React.createElement("h1", { style: { color: "black" } }, "Hello World")
-  // ns.printRaw(elementTest)
-  await sleep(30000)
+
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, no-constant-condition
+  while(true) {
+    await sleep(2000)
+  }
 }
