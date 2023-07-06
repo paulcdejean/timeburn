@@ -1,0 +1,23 @@
+.positiona {
+  bottom: 600px;
+  right: 50px;
+	font-size: 30px;
+  cursor: pointer;
+  position: fixed;
+}
+
+.positionb {
+  bottom: 800px;
+  right: 200px;
+	font-size: 30px;
+  cursor: pointer;
+  position: fixed;
+}
+
+.positionc {
+  top: 0px;
+  left: 0px;
+	font-size: 30px;
+  cursor: pointer;
+  position: absolute;
+}
