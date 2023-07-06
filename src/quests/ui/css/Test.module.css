@@ -15,9 +15,8 @@
 }
 
 .positionc {
-  top: 0px;
-  left: 0px;
+  bottom: -30px;
 	font-size: 30px;
   cursor: pointer;
-  position: absolute;
+  position: relative;
 }
