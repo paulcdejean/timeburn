@@ -1,5 +1,7 @@
 Quests system
 
+How to prevent a react element from getting cleared in the console?
+
 Guide me through the tutorial
 
 Time the tutorial

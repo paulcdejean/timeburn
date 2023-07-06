@@ -1,7 +1,7 @@
 import { NS } from "@ns";
 import * as basicList from "@/staticRam"
 import { sleep } from "@/hacking/utils";
-import RouletteHelper from "@/ui/RouletteHelper/RouletteHelper";
+import RouletteHelper from "@/gambling/roulette/ui/RouletteHelper";
 
 export const basicFunctions = Object.keys(basicList)
 

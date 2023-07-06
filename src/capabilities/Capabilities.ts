@@ -1,7 +1,9 @@
 import { NS } from "@ns";
 import * as basicFunctions from "@/staticRam"
-import { baseRamCost } from "../constants";
+import { baseRamCost } from "@/constants";
 
+
+// It's important that this is a string enum, because we want the args passed to be human readable for QoL
 export const enum Capabilities {
   Basic = "basic",
   Hack = "hack",
