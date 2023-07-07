@@ -1,3 +1,9 @@
+https://react.dev/reference/react/useReducer#dispatch
+
+We need to give the terminal UI an "update" function that will rerender.
+
+Maybe we can accomplish this by calling the dispatch function???
+
 Master box
 
 Redraw master box on unmount, but highlander pattern???'
