@@ -9,12 +9,14 @@ export async function mainBasic(ns: NS): Promise<void> {
 
   await ui.render(ns)
 
-  ns.tprint(ui.wrapperRefCount.count)
+  ns.tprint("Hello world?")
+
+  // ns.tprint(ui.wrapperRefCount.count)
   
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, no-constant-condition
   while(true) {
     await ns.asleep(1000);
-    ns.tprint(ui.wrapperRefCount.count)
+    // ns.tprint(ui.wrapperRefCount.count)
   }
 }

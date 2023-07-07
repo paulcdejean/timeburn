@@ -8,13 +8,12 @@ export class TerminalUI {
     count: 0
   }
 
-  public async render(ns: NS) {
+  public async render(ns: NS) : Promise<void> {
     new Promise(resolve => {
       ns.tprintRaw(React.createElement(TerminalWrapper, {
         wrapperCount: this.wrapperRefCount,
         resolveCallback: resolve,
       }))
     }).then(() => this.render(ns)).catch(() => {})
-    return
   }
 }
