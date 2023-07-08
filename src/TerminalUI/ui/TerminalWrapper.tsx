@@ -19,22 +19,19 @@ function TerminalWrapperReducer(state: number, action: number) {
 }
 
 function TerminalWrapper(props: TerminalWrapperProps) {
-  // It works better here than in the first part of useEffect. Don't ask why.
-  props.wrapperCount.count++
-
-  
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [state, dispatch] = React.useReducer(TerminalWrapperReducer, 0)
   
   React.useEffect(() => {
+    props.wrapperCount.count++
     return () => {
       props.resolveCallback()
       props.wrapperCount.count--
     }
-  })
+  }, [])
 
   if (props.wrapperCount.count <= 1) {
-    props.dispatchCallback = {func: dispatch}
+    props.dispatchCallback.func = dispatch
     return (<p>Highlander: {props.uiState.testCount}</p>)
   } else {
     return (<></>)
