@@ -14,11 +14,11 @@ export async function mainBasic(ns: NS): Promise<void> {
   // ns.tprint(ui.wrapperRefCount.count)
   
 
-  let n = 0
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, no-constant-condition
   while(true) {
     await ns.asleep(500);
-    n = ui.increment(n)
+    ui.state.testCount++
+    ui.update()
     // ns.tprint(ui.wrapperRefCount.count)
   }
 }

@@ -2,24 +2,36 @@ import { NS } from "@ns";
 
 import TerminalWrapper from "./ui/TerminalWrapper";
 import { ReferenceCount } from "@/utils/ReferenceCount";
+import { FunctionBox } from "@/utils/FunctionBox";
 
 export class TerminalUI {
-  public wrapperRefCount : ReferenceCount = {
+  private wrapperRefCount : ReferenceCount = {
     count: 0
   }
 
-  public increment(n: number) {
-    return n + 1
+  private dispatchHandle : FunctionBox = {
+    func: () => {}
   }
 
-  public count = 0
+  public state : TerminalUIState
+
+  public update() {
+    this.dispatchHandle.func(1)
+  }
+
+  public constructor() {
+    this.state = {
+      testCount: 0
+    }
+  }
 
   public async render(ns: NS) : Promise<void> {
     new Promise(resolve => {
       ns.tprintRaw(React.createElement(TerminalWrapper, {
         wrapperCount: this.wrapperRefCount,
         resolveCallback: resolve,
-        counterCallback: this.increment
+        dispatchCallback: this.dispatchHandle,
+        uiState: this.state
       }))
     }).then(() => this.render(ns)).catch(() => {})
   }
