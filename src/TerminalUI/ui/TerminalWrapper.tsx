@@ -3,37 +3,45 @@
  * We only allow one of these to be rendered at a time.
  */
 
-import { FunctionBox } from "@/utils/FunctionBox"
-import { ReferenceCount } from "@/utils/ReferenceCount"
+import { TerminalUIState } from "@/TerminalUI/TerminalUIState"
 
-export interface TerminalWrapperProps {
-  wrapperCount: ReferenceCount,
+
+interface TerminalWrapperProps {
   resolveCallback: Function,
-  dispatchCallback: FunctionBox,
+  dispatchCallback: {
+    func: Function | null
+  }
   uiState: TerminalUIState,
+  randomID: number,
 }
 
 // HUGE react anti pattern, but this is bitburner yo.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function TerminalWrapperReducer(state: number, action: number) {
   return state + action
 }
 
 function TerminalWrapper(props: TerminalWrapperProps) {
+  let reallyRendered = false
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [state, dispatch] = React.useReducer(TerminalWrapperReducer, 0)
   
-  React.useEffect(() => {
-    props.wrapperCount.count++
+  React.useLayoutEffect(() => {
     return () => {
+      if(reallyRendered) {
+        props.dispatchCallback.func = null
+      }
       props.resolveCallback()
-      props.wrapperCount.count--
     }
   }, [])
 
-  if (props.wrapperCount.count <= 1) {
+  if (props.dispatchCallback.func === dispatch || props.dispatchCallback.func === null) {
     props.dispatchCallback.func = dispatch
-    return (<p>Highlander: {props.uiState.testCount}</p>)
+    reallyRendered = true
+    return (<p>Sticky!!! {props.randomID}</p>)
   } else {
+    reallyRendered = false
     return (<></>)
   }
 }

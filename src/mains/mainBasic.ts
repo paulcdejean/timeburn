@@ -17,8 +17,7 @@ export async function mainBasic(ns: NS): Promise<void> {
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, no-constant-condition
   while(true) {
     await ns.asleep(500);
-    ui.state.testCount++
-    ui.update()
-    // ns.tprint(ui.wrapperRefCount.count)
+    // ui.state.testCount++
+    // ui.update()
   }
 }
