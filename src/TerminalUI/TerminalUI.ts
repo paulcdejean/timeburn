@@ -1,7 +1,7 @@
 import { NS } from "@ns";
 
 import TerminalWrapper from "./ui/TerminalWrapper";
-import { TerminalUIState } from "@/TerminalUI/TerminalUIState"
+import type { TerminalUIState } from "@/TerminalUI/TerminalUIState"
 
 export class TerminalUI {
   private dispatchHandle: {

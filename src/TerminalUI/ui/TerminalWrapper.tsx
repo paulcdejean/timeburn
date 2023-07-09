@@ -3,7 +3,7 @@
  * We only allow one of these to be rendered at a time.
  */
 
-import { TerminalUIState } from "@/TerminalUI/TerminalUIState"
+import type { TerminalUIState } from "@/TerminalUI/TerminalUIState"
 
 
 interface TerminalWrapperProps {
