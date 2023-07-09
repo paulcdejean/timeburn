@@ -1,18 +1,16 @@
-https://react.dev/reference/react/useReducer#dispatch
+Pass a child and a gamestate to terminal UI constructor? To allow multiple types of UIs?
 
-We need to give the terminal UI an "update" function that will rerender.
+Make it work then make it pretty!
 
-Maybe we can accomplish this by calling the dispatch function???
-
-Master box
-
-Redraw master box on unmount, but highlander pattern???'
-
-Implement a counter to show that we can update the state from outside react?
-
+* Quests system with strikethrough
+* Hacking that displays:
+** Targetting algorithm
+** Current target
+** Farming algorithm
+** Countdown to cycle end
+** Estimated earnings this cycle
+* Roulette button popup, becomes disabled if kicked out
 Quests system
-
-How to prevent a react element from getting cleared in the console?
 
 Guide me through the tutorial
 
