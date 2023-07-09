@@ -16,16 +16,18 @@ export class TerminalUI {
       }
   }
 
-  public constructor() {
+  public constructor(ns: NS) {
     this.dispatchHandle = {
       func: null
     }
     this.state = {
       testCount: 0
     }
+
+    this.render(ns)
   }
 
-  public render(ns: NS) {
+  private render(ns: NS) {
     new Promise(resolve => {
       ns.tprintRaw(React.createElement(TerminalWrapper, {
         resolveCallback: resolve,
