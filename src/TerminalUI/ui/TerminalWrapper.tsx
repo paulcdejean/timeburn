@@ -9,13 +9,12 @@ import type { TerminalUIState } from "@/TerminalUI/TerminalUIState"
 interface TerminalWrapperProps {
   resolveCallback: Function,
   dispatchCallback: {
-    func: Function | null
+    func: Function | boolean
   }
   uiState: TerminalUIState,
 }
 
 // HUGE react anti pattern, but this is bitburner yo.
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function TerminalWrapperReducer(state: number, action: number) {
   return state + action
 }
@@ -23,19 +22,18 @@ function TerminalWrapperReducer(state: number, action: number) {
 function TerminalWrapper(props: TerminalWrapperProps) {
   let reallyRendered = false
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [state, dispatch] = React.useReducer(TerminalWrapperReducer, 0)
+  const [, dispatch] = React.useReducer(TerminalWrapperReducer, 0)
   
   React.useLayoutEffect(() => {
     return () => {
-      if(reallyRendered) {
-        props.dispatchCallback.func = null
+      if(reallyRendered && props.dispatchCallback.func !== false) {
+        props.dispatchCallback.func = true
       }
       props.resolveCallback()
     }
   }, [])
 
-  if (props.dispatchCallback.func === dispatch || props.dispatchCallback.func === null) {
+  if (props.dispatchCallback.func === dispatch || props.dispatchCallback.func === true) {
     props.dispatchCallback.func = dispatch
     reallyRendered = true
     return (<p>Sticky: {props.uiState.testCount}</p>)

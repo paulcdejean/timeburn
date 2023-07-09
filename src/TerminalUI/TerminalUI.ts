@@ -5,26 +5,36 @@ import type { TerminalUIState } from "@/TerminalUI/TerminalUIState"
 
 export class TerminalUI {
   private dispatchHandle: {
-    func: Function | null
+    func: Function | boolean
   }
   
   public state : TerminalUIState
 
   public update() {
-      if (this.dispatchHandle.func !== null) {
+      if (this.dispatchHandle.func !== false && this.dispatchHandle.func !== true) {
         this.dispatchHandle.func(1)
       }
   }
 
   public constructor(ns: NS) {
     this.dispatchHandle = {
-      func: null
+      func: true
     }
     this.state = {
       testCount: 0
     }
 
     this.render(ns)
+  }
+
+  public close() {
+    if (this.dispatchHandle.func === false || this.dispatchHandle.func === true) {
+      this.dispatchHandle.func = false
+    } else {
+      const realDispatchHandle = this.dispatchHandle.func
+      this.dispatchHandle.func = false
+      realDispatchHandle(1)
+    }
   }
 
   private render(ns: NS) {
