@@ -7,17 +7,12 @@ export const basicFunctions = Object.keys(basicList)
 export async function mainBasic(ns: NS): Promise<void> {
   const ui = new TerminalUI();
 
-  await ui.render(ns)
-
-  ns.tprint("Hello world?")
-
-  // ns.tprint(ui.wrapperRefCount.count)
-  
+  ui.render(ns)
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, no-constant-condition
   while(true) {
     await ns.asleep(500);
-    // ui.state.testCount++
-    // ui.update()
+    ui.state.testCount++
+    ui.update()
   }
 }

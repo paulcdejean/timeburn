@@ -12,7 +12,6 @@ interface TerminalWrapperProps {
     func: Function | null
   }
   uiState: TerminalUIState,
-  randomID: number,
 }
 
 // HUGE react anti pattern, but this is bitburner yo.
@@ -39,7 +38,7 @@ function TerminalWrapper(props: TerminalWrapperProps) {
   if (props.dispatchCallback.func === dispatch || props.dispatchCallback.func === null) {
     props.dispatchCallback.func = dispatch
     reallyRendered = true
-    return (<p>Sticky!!! {props.randomID}</p>)
+    return (<p>Sticky: {props.uiState.testCount}</p>)
   } else {
     reallyRendered = false
     return (<></>)
