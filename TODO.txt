@@ -4,6 +4,7 @@ Make it work then make it pretty!
 
 * Quests system with strikethrough
 * Hacking that displays:
+** Number of cycles until the target is fully prepped
 ** Targetting algorithm
 ** Current target
 ** Farming algorithm

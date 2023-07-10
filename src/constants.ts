@@ -1,7 +1,5 @@
 export const home = "home"
-export const cave = "The-Cave"
 export const noodles = "n00dles"
-export const foodnstuff = "foodnstuff"
 export const defaultServerFortifyAmount = 0.002 // Mined from code
 export const defaultServerWeakenAmount = 0.05 // Mined from code
 export const homeReservedRam = 128

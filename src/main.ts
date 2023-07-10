@@ -18,13 +18,13 @@ export async function main(ns: NS): Promise<void> {
   }
 
   // Detect what capabilities the script was launched with.
-  let capabilities = Capabilities.Tutorial
+  let capability = Capabilities.Tutorial
   if(ns.args.length > 0) {
-    capabilities = ns.args[0] as Capabilities
+    capability = ns.args[0] as Capabilities
   }
 
   // If capabilities are not upgraded, then get to the main bulk of the code.
-  switch(capabilities) {
+  switch(capability) {
     case Capabilities.Tutorial: {
       await mainTutorial(ns)
       return
