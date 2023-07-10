@@ -2,7 +2,7 @@ import type { NS } from "@ns"
 
 import { Capabilities } from "@/capabilities/Capabilities"
 
-import { mainBasic } from "@/mains/mainBasic"
+import { mainTutorial } from "@/mains/mainTutorial"
 import * as basicFunctions from "@/staticRam"
 import { mainHack } from "@/mains/mainHack"
 import { mainGrow } from "@/mains/mainGrow"
@@ -18,15 +18,15 @@ export async function main(ns: NS): Promise<void> {
   }
 
   // Detect what capabilities the script was launched with.
-  let capabilities = Capabilities.Basic
+  let capabilities = Capabilities.Tutorial
   if(ns.args.length > 0) {
     capabilities = ns.args[0] as Capabilities
   }
 
   // If capabilities are not upgraded, then get to the main bulk of the code.
   switch(capabilities) {
-    case Capabilities.Basic: {
-      await mainBasic(ns)
+    case Capabilities.Tutorial: {
+      await mainTutorial(ns)
       return
     }
     case Capabilities.Hack: {

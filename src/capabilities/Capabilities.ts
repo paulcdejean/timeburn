@@ -5,14 +5,14 @@ import { baseRamCost } from "@/constants";
 
 // It's important that this is a string enum, because we want the args passed to be human readable for QoL
 export const enum Capabilities {
-  Basic = "basic",
+  Tutorial = "tutorial",
   Hack = "hack",
   Weaken = "weaken",
   Grow = "grow"
 }
 
 const capabilityFunctions = {
-  [Capabilities.Basic]: Object.keys(basicFunctions), // 8GB of RAM
+  [Capabilities.Tutorial]: Object.keys(basicFunctions), // 8GB of RAM
   [Capabilities.Hack]: ["hack"], // Hack farmer
   [Capabilities.Grow]: ["grow"], // Grow farmer
   [Capabilities.Weaken]: ["weaken"], // Weaken farmer

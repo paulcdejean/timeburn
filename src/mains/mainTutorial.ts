@@ -1,10 +1,10 @@
 import { NS } from "@ns";
-import * as basicList from "@/staticRam"
+import * as staticList from "@/staticRam"
 import { TerminalUI } from "@/TerminalUI/TerminalUI"
 
-export const basicFunctions = Object.keys(basicList)
+export const tutorialFunctions = Object.keys(staticList)
 
-export async function mainBasic(ns: NS): Promise<void> {
+export async function mainTutorial(ns: NS): Promise<void> {
   const ui = new TerminalUI(ns)
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, no-constant-condition

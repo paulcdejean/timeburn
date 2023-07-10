@@ -16,7 +16,6 @@
   "unicodeEscapeSequence": false,
   "reservedNames": [
     "^exec$",
-    "^getScriptRam$",
     "^scp$",
     "^scan$",
     "^nuke$",
@@ -29,17 +28,8 @@
     "^relaysmtp$",
     "^httpworm$",
     "^sqlinject$",
-    "^growthAnalyze$",
-    "^hackAnalyze$",
-    "^getServerMinSecurityLevel$",
-    "^getServerSecurityLevel$",
-    "^getServerRequiredHackingLevel$",
-    "^getServerMaxMoney$",
-    "^getServerMaxRam$",
-    "^hasRootAccess$",
-    "^getServerNumPortsRequired$",
-    "^getServerMoneyAvailable$",
-    "^getHackingLevel$",
-    "^getResetInfo$"
+    "^getServer$",
+    "^getPlayer$",
+    "^getMoneySources$"
   ]
 }
