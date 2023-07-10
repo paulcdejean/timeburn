@@ -1,7 +1,6 @@
 import { Capabilities } from "@/capabilities/Capabilities";
 import { Farm } from "@/hacking/Farm";
 import { Network } from "@/hacking/network";
-import { growthAnalyzeSecurity, hackAnalyzeSecurity, weakenAnalyze } from "@/hacking/utils";
 import { NS } from "@ns";
 
 export function basicHWGW(ns: NS, network: Network, target: string) : Farm {
@@ -24,10 +23,10 @@ export function basicHWGW(ns: NS, network: Network, target: string) : Farm {
   }
 
   while(hackThreads > 0) {
-    const hackSecurityGain = hackAnalyzeSecurity (ns, hackThreads, target)
-    const growthSecurityGain = growthAnalyzeSecurity(ns, growThreads, target)
-    const firstWeakenThreads = Math.ceil(hackSecurityGain / weakenAnalyze(ns, 1))
-    const secondWeakenThreads =  Math.ceil(growthSecurityGain / weakenAnalyze(ns, 1))
+    const hackSecurityGain = ns.hackAnalyzeSecurity (hackThreads, target)
+    const growthSecurityGain = ns.growthAnalyzeSecurity(growThreads, target)
+    const firstWeakenThreads = Math.ceil(hackSecurityGain / ns.weakenAnalyze(1))
+    const secondWeakenThreads =  Math.ceil(growthSecurityGain / ns.weakenAnalyze(1))
     const batch = [
       {capability: Capabilities.Hack, threads: hackThreads, allowSpread: false},
       {capability: Capabilities.Weaken, threads: firstWeakenThreads, allowSpread: true},

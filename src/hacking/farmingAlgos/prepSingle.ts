@@ -1,7 +1,6 @@
 import { Capabilities } from "@/capabilities/Capabilities";
 import { Farm } from "@/hacking/Farm";
 import { Network } from "@/hacking/network";
-import { growthAnalyzeSecurity, weakenAnalyze } from "@/hacking/utils";
 import { NS } from "@ns";
 
 function weakenToMinSecurity(ns: NS, farm: Farm) : boolean {
@@ -10,7 +9,7 @@ function weakenToMinSecurity(ns: NS, farm: Farm) : boolean {
 
   if(currentSecurity > minSecurity) {
     const requiredWeakenAmount = currentSecurity - minSecurity
-    const requiredWeakenThreads = Math.ceil(requiredWeakenAmount / weakenAnalyze(ns, 1))
+    const requiredWeakenThreads = Math.ceil(requiredWeakenAmount / ns.weakenAnalyze(1))
 
     return farm.schedule(ns, [{
       capability: Capabilities.Weaken,
@@ -30,8 +29,8 @@ function growToMaxMoney(ns: NS, farm: Farm) : boolean {
     const requiredGrowAmount = maxMoney / currentMoney
     let attemptedGrowThreads = Math.ceil(ns.growthAnalyze(farm.target, requiredGrowAmount))
 
-    let growSecurityGain = growthAnalyzeSecurity(ns, attemptedGrowThreads, farm.target)
-    let requiredWeakenThreads = Math.ceil(growSecurityGain / weakenAnalyze(ns, 1))
+    let growSecurityGain = ns.growthAnalyzeSecurity(attemptedGrowThreads, farm.target)
+    let requiredWeakenThreads = Math.ceil(growSecurityGain / ns.weakenAnalyze(1))
 
     const success = farm.schedule(ns, [
       {
@@ -52,8 +51,8 @@ function growToMaxMoney(ns: NS, farm: Farm) : boolean {
     } else {
       attemptedGrowThreads = 25 // Early game heurestic...
       while (attemptedGrowThreads > 0) {
-        growSecurityGain = growthAnalyzeSecurity(ns, attemptedGrowThreads, farm.target)
-        requiredWeakenThreads = Math.ceil(growSecurityGain / weakenAnalyze(ns, 1))
+        growSecurityGain = ns.growthAnalyzeSecurity(attemptedGrowThreads, farm.target)
+        requiredWeakenThreads = Math.ceil(growSecurityGain / ns.weakenAnalyze(1))
     
         const success = farm.schedule(ns, [
           {

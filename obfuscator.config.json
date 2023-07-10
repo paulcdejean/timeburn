@@ -31,6 +31,7 @@
     "^getServer$",
     "^getPlayer$",
     "^getMoneySources$",
-    "^hasTorRouter$"
+    "^hasTorRouter$",
+    "^getServerMaxRam$"
   ]
 }

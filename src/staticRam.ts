@@ -9,6 +9,8 @@ export const scan = 0; // Essential.
 export const nuke = 0; // Essential.
 export const fileExists = 0; // Essential.
 
+export const getServerMaxRam = 0; // Upgrading capabilities.
+
 export const getGrowTime = 0; // Essential for earning money.
 export const getHackTime = 0; // Essential for earning money.
 export const getWeakenTime = 0; // Essential for earning money.

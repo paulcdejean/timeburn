@@ -1,5 +1,0 @@
-/**
- * Quest list:
- * Hello
- * World
- */

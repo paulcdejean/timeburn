@@ -1,12 +1,11 @@
 import { Farm } from "@/hacking/Farm";
 import { prepSingleGrowOnly } from "@/hacking/farmingAlgos/prepSingle";
 import { Network } from "@/hacking/network";
-import { weakenAnalyze } from "@/hacking/utils";
 import { NS, Server } from "@ns";
 
 export function getWeakenCycles(ns: NS, network: Network, target: string) : number {
   const requiredWeakenAmount = ns.getServerSecurityLevel(target) - ns.getServerMinSecurityLevel(target)
-  const requiredWeakenThreads = Math.ceil(requiredWeakenAmount / weakenAnalyze(ns, 1))
+  const requiredWeakenThreads = Math.ceil(requiredWeakenAmount / ns.weakenAnalyze(1))
   const farm = new Farm(ns, network, target)
   const weakenThreads = farm.finalWeaken(ns)
   const weakenCycles = Math.ceil(requiredWeakenThreads / weakenThreads)
