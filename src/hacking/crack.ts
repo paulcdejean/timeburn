@@ -130,7 +130,6 @@ export function crackNetwork(ns: NS, network: Network, interval: number): void {
     }
   }
 
-
   if (everythingIsCracked(network)) {
     return
   } else {

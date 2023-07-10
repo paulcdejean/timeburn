@@ -23,3 +23,4 @@ export const getServer = 0; // Luxury, simplifies network code.
 export const getPlayer = 0; // Helpful for the tutorial.
 
 export const getMoneySources = 0; // Luxury for tutorial.
+export const hasTorRouter = 0; // Luxury for tutorial.

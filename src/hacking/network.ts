@@ -19,24 +19,25 @@ export class Network {
     [Cracks.HTTPWorm]: false,
     [Cracks.SQLInject]: false,
   }
+  private ns: NS
 
   constructor(ns: NS) {
-    this.refresh(ns)
+    this.ns = ns
+    this.refresh()
   }
 
-  public refresh(ns: NS) {
+  public refresh() {
     this.servers = {}
-    this.addToNetwork(ns, home)
+    this.addToNetwork(home)
     this.upToDate = true
   }
 
-  private addToNetwork(ns: NS, server: string) {
+  private addToNetwork(server: string) {
     if (!(server in this.servers)) {
-      this.servers[server] = ns.getServer(server)
-      ns.scp(thisScript, server, home)
-      const nearbyServers = ns.scan(server)
-      nearbyServers.forEach((nearbyServer) => {
-        this.addToNetwork(ns, nearbyServer)
+      this.servers[server] = this.ns.getServer(server)
+      this.ns.scp(thisScript, server, home)
+      this.ns.scan(server).forEach((nearbyServer) => {
+        this.addToNetwork(nearbyServer)
       })
     }
   }

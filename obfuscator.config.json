@@ -30,6 +30,7 @@
     "^sqlinject$",
     "^getServer$",
     "^getPlayer$",
-    "^getMoneySources$"
+    "^getMoneySources$",
+    "^hasTorRouter$"
   ]
 }
