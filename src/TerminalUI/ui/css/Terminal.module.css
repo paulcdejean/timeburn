@@ -1,0 +1,11 @@
+.terminalbox {
+  bottom: 40px;
+  right: 0;
+  height: 480px;
+  width: 720px;
+  position: fixed;
+  background-color: darkblue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

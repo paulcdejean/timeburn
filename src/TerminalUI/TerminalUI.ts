@@ -1,4 +1,4 @@
-import { NS } from "@ns";
+import type { NS } from "@ns";
 
 import TerminalWrapper from "./ui/TerminalWrapper";
 import type { TerminalUIState } from "@/TerminalUI/TerminalUIState"
@@ -21,7 +21,8 @@ export class TerminalUI {
       func: true
     }
     this.state = {
-      testCount: 0
+      testCount: 0,
+      ns: ns,
     }
 
     this.render(ns)

@@ -200,8 +200,6 @@ export class Farm {
         ramOverride: this.plan[spawn].ram
       }
 
-      ns.enableLog("exec")
-
       const pid = ns.exec(thisScript, this.plan[spawn].host, runOptions,
         this.plan[spawn].capability,
         this.target,

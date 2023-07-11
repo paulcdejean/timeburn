@@ -4,6 +4,7 @@
  */
 
 import type { TerminalUIState } from "@/TerminalUI/TerminalUIState"
+import Terminal from "./Terminal"
 
 
 interface TerminalWrapperProps {
@@ -36,7 +37,7 @@ function TerminalWrapper(props: TerminalWrapperProps) {
   if (props.dispatchCallback.func === dispatch || props.dispatchCallback.func === true) {
     props.dispatchCallback.func = dispatch
     reallyRendered = true
-    return (<p>Sticky: {props.uiState.testCount}</p>)
+    return (<Terminal UIState={props.uiState} />)
   } else {
     reallyRendered = false
     return (<></>)
