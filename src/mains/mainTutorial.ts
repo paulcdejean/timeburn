@@ -26,11 +26,13 @@ export async function mainTutorial(ns: NS): Promise<void> {
     ui.close()
   })
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   while (!upgradeCapabilities(ns, capability)) {
     if (!network.upToDate) {
       network.refresh()
     }
-    await pickFarm(ns, network, capability).run(ns)
+    const farm = pickFarm(ns, network, capability)
+    ui.state.currentHackingTarget = farm.target
+    ui.update()
+    await farm.run(ns)
   }
 }

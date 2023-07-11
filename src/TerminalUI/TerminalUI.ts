@@ -3,6 +3,7 @@ import type { NS } from "@ns";
 import TerminalWrapper from "./ui/TerminalWrapper";
 import type { TerminalUIState } from "@/TerminalUI/TerminalUIState"
 import { Capabilities } from "@/capabilities/Capabilities";
+import { noodles } from "@/constants";
 
 export class TerminalUI {
   private dispatchHandle: {
@@ -24,6 +25,7 @@ export class TerminalUI {
     this.state = {
       capability: capability,
       ns: ns,
+      currentHackingTarget: noodles,
     }
 
     this.render(ns)

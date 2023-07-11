@@ -17,6 +17,8 @@ function Terminal(props: TerminalProps) {
       <div className={css.terminalbox}>
         <button type="button" onClick={() => props.UIState.ns.exit()}>Exit</button>
         <hr />
+        Target = {props.UIState.currentHackingTarget}
+        <hr />
         Capability = {props.UIState.capability}
         <hr />
         <button type="button" onClick={() => roulette(props.UIState.ns)}>Roulette</button>
