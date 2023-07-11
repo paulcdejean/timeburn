@@ -2,6 +2,7 @@ import type { NS } from "@ns";
 
 import TerminalWrapper from "./ui/TerminalWrapper";
 import type { TerminalUIState } from "@/TerminalUI/TerminalUIState"
+import { Capabilities } from "@/capabilities/Capabilities";
 
 export class TerminalUI {
   private dispatchHandle: {
@@ -16,12 +17,12 @@ export class TerminalUI {
       }
   }
 
-  public constructor(ns: NS) {
+  public constructor(ns: NS, capability: Capabilities) {
     this.dispatchHandle = {
       func: true
     }
     this.state = {
-      testCount: 0,
+      capability: capability,
       ns: ns,
     }
 

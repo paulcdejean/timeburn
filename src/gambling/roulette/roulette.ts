@@ -15,7 +15,5 @@ export function roulette(ns: NS): void {
     fixTail(ns)
   }).catch(() => {})
 
-  setTimeout(fixTail, 0, ns)
-
   ns.printRaw(React.createElement(RouletteHelper))
 }

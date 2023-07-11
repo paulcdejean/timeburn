@@ -1,6 +1,7 @@
+import { Capabilities } from "@/capabilities/Capabilities"
 import type { NS } from "@ns"
 
 export interface TerminalUIState {
-  testCount: number
+  capability: Capabilities
   ns: NS
 }
