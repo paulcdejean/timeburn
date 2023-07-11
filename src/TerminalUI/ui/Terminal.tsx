@@ -16,6 +16,9 @@ function Terminal(props: TerminalProps) {
       <style>{cssInline}</style>
       <div className={css.terminalbox}>
         <p>
+          <button type="button" onClick={() => props.UIState.ns.exit()}>Exit</button>
+        </p>
+        <p>
           Capability = {props.UIState.capability}
         </p>
         <p>
