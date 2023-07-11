@@ -19,6 +19,8 @@ export async function mainStandardFormulas(ns: NS): Promise<void> {
   })
 
   while (!upgradeCapabilities(ns, capability)) {
+    // TODO: attemptPserverUpgrade(ns, network)
+
     if (!network.upToDate) {
       network.refresh()
     }
@@ -26,7 +28,5 @@ export async function mainStandardFormulas(ns: NS): Promise<void> {
     ui.state.currentHackingTarget = farm.target
     ui.update()
     await farm.run(ns)
-
-    // TODO: attemptPserverUpgrade(ns, network)
   }
 }

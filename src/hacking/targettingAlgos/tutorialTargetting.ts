@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { quickHack } from "../farmingAlgos/quickHack"
 import type { TargettingAlgo } from "./TargettingAlgo"
 
 
@@ -8,5 +9,5 @@ export const tutorialTargetting : TargettingAlgo = function(ns, network) {
   const sigmaCosmetics = "sigma-cosmetics"
   const foodnstuff = "foodnstuff"
 
-  return foodnstuff
+  return quickHack(ns, network, "foodnstuff")
 }
