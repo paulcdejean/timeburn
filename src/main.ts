@@ -7,6 +7,7 @@ import * as basicFunctions from "@/staticRam"
 import { mainHack } from "@/mains/mainHack"
 import { mainGrow } from "@/mains/mainGrow"
 import { mainWeaken } from "@/mains/mainWeaken"
+import { mainStandardFormulas } from "./mains/mainStandardFormulas"
 
 export async function main(ns: NS): Promise<void> {
   // Prevents spam, forgive the magic word here.
@@ -43,6 +44,10 @@ export async function main(ns: NS): Promise<void> {
     }
     case Capabilities.Weaken: {
       await mainWeaken(ns)
+      return
+    }
+    case Capabilities.StandardFormulas: {
+      await mainStandardFormulas(ns)
       return
     }
   }

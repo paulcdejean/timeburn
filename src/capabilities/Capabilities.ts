@@ -1,6 +1,6 @@
 import { NS } from "@ns";
 import * as basicFunctions from "@/staticRam"
-import { baseRamCost, home, thisScript } from "@/constants";
+import { CompletedProgramName, baseRamCost, home, thisScript } from "@/constants";
 import { standardFunctions } from "./standardFunctions";
 
 
@@ -11,6 +11,7 @@ export const enum Capabilities {
   Weaken = "weaken",
   Grow = "grow",
   Standard = "standard",
+  StandardFormulas = "standard+formulas",
 }
 
 const capabilityFunctions = {
@@ -19,6 +20,7 @@ const capabilityFunctions = {
   [Capabilities.Grow]: ["grow"], // Grow farmer
   [Capabilities.Weaken]: ["weaken"], // Weaken farmer
   [Capabilities.Standard]: standardFunctions, // 32GB of RAM
+  [Capabilities.StandardFormulas]: standardFunctions, // 32GB of RAM and Formulas
 }
 
 export function getCapabilityRam(ns: NS, capability: Capabilities) : number {
@@ -29,14 +31,19 @@ export function getCapabilityRam(ns: NS, capability: Capabilities) : number {
   return capabilityRam
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function upgradeCapabilities(ns: NS, currentCapability: Capabilities) : boolean {
   if (currentCapability === Capabilities.Tutorial && ns.getServerMaxRam(home) >= 32) {
     if (!upgradeCapabilities(ns, Capabilities.Standard)) {
       ns.tprint(`Upgrading to capability standard with ${getCapabilityRam(ns, Capabilities.Standard)}GB RAM`)
       ns.exec(thisScript, home, 1, Capabilities.Standard)
-      return true
     }
+    return true
+  } else if (currentCapability === Capabilities.Standard && ns.fileExists(CompletedProgramName.formulas, home)) {
+    if (!upgradeCapabilities(ns, Capabilities.StandardFormulas)) {
+      ns.tprint(`Upgrading to capability standard+formulas with ${getCapabilityRam(ns, Capabilities.StandardFormulas)}GB RAM`)
+      ns.exec(thisScript, home, 1, Capabilities.StandardFormulas)
+    }
+    return true
   }
   return false
 }
