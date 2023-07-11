@@ -1,6 +1,6 @@
 import type { NS } from "@ns"
 
-import { Capabilities } from "@/capabilities/Capabilities"
+import { Capabilities, upgradeCapabilities } from "@/capabilities/Capabilities"
 
 import { mainTutorial } from "@/mains/mainTutorial"
 import * as basicFunctions from "@/staticRam"
@@ -21,6 +21,10 @@ export async function main(ns: NS): Promise<void> {
   let capability = Capabilities.Tutorial
   if(ns.args.length > 0) {
     capability = ns.args[0] as Capabilities
+  }
+
+  if(upgradeCapabilities(ns, capability)) {
+    ns.exit()
   }
 
   // If capabilities are not upgraded, then get to the main bulk of the code.

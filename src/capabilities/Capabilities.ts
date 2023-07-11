@@ -27,7 +27,7 @@ export function getCapabilityRam(ns: NS, capability: Capabilities) : number {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function upgradeCapabilities(ns: NS, capabilities: Capabilities) {
+export function upgradeCapabilities(ns: NS, currentCapability: Capabilities) : boolean {
   return false
 
   // TODO: actually allow upgrading of capabilities

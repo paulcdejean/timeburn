@@ -15,7 +15,12 @@ function Terminal(props: TerminalProps) {
     <>
       <style>{cssInline}</style>
       <div className={css.terminalbox}>
-        <button type="button" onClick={() => roulette(props.UIState.ns)}>Roulette</button>
+        <p>
+          Capability = {props.UIState.capability}
+        </p>
+        <p>
+          <button type="button" onClick={() => roulette(props.UIState.ns)}>Roulette</button>
+        </p>
       </div>
     </>
   )

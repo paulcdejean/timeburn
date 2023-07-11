@@ -22,6 +22,10 @@ export async function mainTutorial(ns: NS): Promise<void> {
   const ui = new TerminalUI(ns, capability)
   ui.update()
 
+  ns.atExit(() => {
+    ui.close()
+  })
+
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   while (!upgradeCapabilities(ns, capability)) {
     if (!network.upToDate) {
