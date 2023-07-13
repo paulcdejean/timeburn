@@ -7,6 +7,7 @@ export interface BatchOperation {
   threads : number
   allowSpread : boolean
   affectStocks: boolean
+  minimumCores: number
 }
 
 export interface FarmStats {

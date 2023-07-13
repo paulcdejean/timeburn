@@ -2,25 +2,9 @@ import { Capabilities, getCapabilityRam } from "@/capabilities/Capabilities"
 import { home, homeReservedRam, thisScript } from "@/constants"
 import { Network } from "@/hacking/network"
 import { BasicHGWOptions, NS, RunOptions } from "@ns"
+import { Batch } from "./types"
 
-// For example a single HWGW
-export type Batch = Operation[]
-
-export interface Operation {
-  capability : Capabilities
-  threads : number
-  allowSpread : boolean
-  // TODO: stonks
-}
-
-export interface FarmStats {
-  earningsPerCycle: number
-  cycleTimeInMs: number
-  earningsPerSecond: number
-  growThreads: number
-}
-
-interface Spawn {
+interface ExecSpawn {
   capability : Capabilities
   threads : number
   host : string
@@ -30,14 +14,22 @@ interface Spawn {
 
 export class Farm {
   private availableRam : Record<string, number>
-  private plan : Spawn[] = []
+  private plan : ExecSpawn[] = []
   private cycleTime : number
-  public target : string
+  private target : string
 
-  constructor(ns: NS, network: Network, target: string) {
+  getTarget() {
+    return this.target
+  }
+
+  constructor(ns: NS, network: Network, target: string, cycleTime?: number) {
     this.availableRam = {}
     this.target = target
-    this.cycleTime = ns.getWeakenTime(this.target)
+    if(cycleTime === undefined) {
+      this.cycleTime = ns.getWeakenTime(this.target)
+    } else {
+      this.cycleTime = cycleTime
+    }
     for (const server in network.servers) {
       if (network.servers[server].hasAdminRights) {
         if (server == home) {
@@ -49,91 +41,29 @@ export class Farm {
     }
   }
 
-  /**
-   * @function finalWeaken Fill all remaining available RAM with weaken calls, to maximize exp gains.
-   */
-  finalWeaken(ns: NS) : number {
-    const weakenRam = getCapabilityRam(ns, Capabilities.Weaken)
-    let totalThreads = 0
-
-    for (const server in this.availableRam) {
-      if (this.availableRam[server] >= weakenRam) {
-        const threads = Math.floor(this.availableRam[server] / weakenRam)
-
-        const hgwOptions : BasicHGWOptions = {
-          threads: threads,
-          stock: false,
-          additionalMsec: 0
-        }
-
-        this.plan.push({
-          capability: Capabilities.Weaken,
-          threads: threads,
-          host: server,
-          hgwOptions: hgwOptions,
-          ram: weakenRam,
-        })
-        this.availableRam[server] = 0
-        totalThreads = totalThreads + threads
-      }
-    }
-    return totalThreads
-  }
-
-  /**
-   * @function quickHack Fill all remaining available RAM with hack calls, which has some niche uses.
-   */
-  quickHack(ns: NS) : number {
-    const hackRam = getCapabilityRam(ns, Capabilities.Hack)
-    let totalThreads = 0
-
-    // Override the cycle time
-    this.cycleTime = ns.getHackTime(this.target)
-
-    for (const server in this.availableRam) {
-      if (this.availableRam[server] >= hackRam) {
-        const threads = Math.floor(this.availableRam[server] / hackRam)
-
-        const hgwOptions : BasicHGWOptions = {
-          threads: threads,
-          stock: false,
-          additionalMsec: 0
-        }
-
-        this.plan.push({
-          capability: Capabilities.Hack,
-          threads: threads,
-          host: server,
-          hgwOptions: hgwOptions,
-          ram: hackRam,
-        })
-        this.availableRam[server] = 0
-        totalThreads = totalThreads + threads
-      }
-    }
-    return totalThreads
-  }
-
   schedule(ns: NS, batch: Batch) : boolean {
     const simulatedAvailableRam = Object.assign({}, this.availableRam)
-    const simulatedPlan : Spawn[] = []
+    const simulatedPlan : ExecSpawn[] = []
 
     const weakenTime = ns.getWeakenTime(this.target)
     const hackTime = ns.getHackTime(this.target)
     const growTime = ns.getGrowTime(this.target)
 
-    for (const operation in batch) {
-      const operationScriptRam = getCapabilityRam(ns, batch[operation].capability)
+    for (const operation of batch) {
+      const operationScriptRam = getCapabilityRam(ns, operation.capability)
       let successfulPlan = false
 
-      let currentThreads = batch[operation].threads
+      let currentThreads = operation.threads
 
       let additionalMsec = 0
-      if(batch[operation].capability === Capabilities.Hack) {
-        additionalMsec = weakenTime - hackTime
-      } else if(batch[operation].capability == Capabilities.Grow) {
-        additionalMsec = weakenTime - growTime
+      if(operation.capability === Capabilities.Hack) {
+        additionalMsec = Math.max(this.cycleTime - hackTime, 0)
+      } else if(operation.capability === Capabilities.Grow) {
+        additionalMsec = Math.max(this.cycleTime - growTime, 0)
+      } else if(operation.capability === Capabilities.Weaken) {
+        additionalMsec = Math.max(this.cycleTime - weakenTime, 0)
       }
+      
       
       for (const server in simulatedAvailableRam) {
         if (simulatedAvailableRam[server] >= operationScriptRam * currentThreads) {
@@ -145,7 +75,7 @@ export class Farm {
           }
 
           simulatedPlan.push({
-            capability: batch[operation].capability,
+            capability: operation.capability,
             threads: currentThreads,
             host: server,
             hgwOptions: hgwOptions,
@@ -154,34 +84,29 @@ export class Farm {
           simulatedAvailableRam[server] = simulatedAvailableRam[server] - (operationScriptRam * currentThreads)
           successfulPlan = true
           break
-        } else if (batch[operation].allowSpread) {
-          // If spread is allowed just spread things wherever
-          let attemptingThreads = currentThreads - 1
-          while (attemptingThreads > 0) {
-            if (simulatedAvailableRam[server] >= operationScriptRam * attemptingThreads) {
-              const hgwOptions : BasicHGWOptions = {
-                threads: attemptingThreads,
-                stock: false,
-                additionalMsec: additionalMsec
-              }
-  
-              simulatedPlan.push({
-                capability: batch[operation].capability,
-                threads: attemptingThreads,
-                host: server,
-                hgwOptions: hgwOptions,
-                ram: operationScriptRam,
-              })
-              simulatedAvailableRam[server] = simulatedAvailableRam[server] - (operationScriptRam * attemptingThreads)
-              currentThreads = currentThreads - attemptingThreads
-              break
+        } else if (operation.allowSpread) {
+          const attemptingThreads =  Math.floor(simulatedAvailableRam[server] / operationScriptRam)
+          if (attemptingThreads > 0 ) {
+            const hgwOptions : BasicHGWOptions = {
+              threads: attemptingThreads,
+              stock: false,
+              additionalMsec: additionalMsec
             }
-            attemptingThreads = attemptingThreads - 1
+
+            simulatedPlan.push({
+              capability: operation.capability,
+              threads: attemptingThreads,
+              host: server,
+              hgwOptions: hgwOptions,
+              ram: operationScriptRam,
+            })
           }
+          simulatedAvailableRam[server] = simulatedAvailableRam[server] - (operationScriptRam * attemptingThreads)
+          currentThreads = currentThreads - attemptingThreads
         }
       }
 
-      if(!successfulPlan) {
+      if(!successfulPlan && operation.threads !== Infinity) {
         return false
       }
     }
@@ -215,24 +140,5 @@ export class Farm {
     }
 
     return ns.asleep(this.cycleTime + 500)
-  }
-
-  getStats(ns: NS) : FarmStats {
-    const stats = {
-      earningsPerCycle: 0,
-      cycleTimeInMs: 0,
-      earningsPerSecond: 0,
-      growThreads: 0,
-    }
-
-    stats.cycleTimeInMs = ns.getWeakenTime(this.target)
-
-    for (const spawn in this.plan) {
-      if (this.plan[spawn].capability == Capabilities.Grow) {
-        stats.growThreads = stats.growThreads + this.plan[spawn].threads
-      }
-    }
-
-    return stats
   }
 }

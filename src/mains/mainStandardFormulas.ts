@@ -25,7 +25,7 @@ export async function mainStandardFormulas(ns: NS): Promise<void> {
       network.refresh()
     }
     const farm = pickFarm(ns, network, capability)
-    ui.state.currentHackingTarget = farm.target
+    ui.state.currentHackingTarget = farm.getTarget()
     ui.update()
     await farm.run(ns)
   }
