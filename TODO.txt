@@ -1,4 +1,4 @@
-
+Add core increase detection
 
 Refactor availableRam from farm, to be sorted so we can try and schedule the smaller servers first...
 

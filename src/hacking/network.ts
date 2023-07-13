@@ -27,9 +27,15 @@ export class Network {
   }
 
   public refresh() {
-    this.servers = {}
-    this.addToNetwork(home)
-    this.upToDate = true
+    // TODO detect new cracks
+
+    // TODO detect change in home RAM or Cores
+
+    if (!this.upToDate) {
+      this.servers = {}
+      this.addToNetwork(home)
+      this.upToDate = true
+    }
   }
 
   private addToNetwork(server: string) {
