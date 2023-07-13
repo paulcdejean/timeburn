@@ -2,10 +2,6 @@ Add core increase detection
 
 Refactor availableRam from farm, to be sorted so we can try and schedule the smaller servers first...
 
-Farm takes a server object, instead of a string
-Farm.simulate outputs a new server object
-Special case for infinity sized operations
-
 standardFormulasTargetting
 
 Refactor cracks.ts to add home and change enum, also pull it into network.ts probably
