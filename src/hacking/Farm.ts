@@ -1,4 +1,5 @@
 import { Capabilities, getCapabilityRam } from "@/capabilities/Capabilities"
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { home, homeReservedRam, thisScript } from "@/constants"
 import { Network } from "@/hacking/network"
 import { BasicHGWOptions, NS, RunOptions } from "@ns"
@@ -13,32 +14,33 @@ interface ExecSpawn {
 }
 
 export class Farm {
-  private availableRam : Record<string, number>
+  private availableRam : Map<string, number>
   private plan : ExecSpawn[] = []
   private cycleTime : number
-  private target : string
-
-  getTarget() {
-    return this.target
-  }
+  readonly target : string
 
   constructor(ns: NS, network: Network, target: string, cycleTime?: number) {
-    this.availableRam = {}
+    this.availableRam = new Map()
     this.target = target
     if(cycleTime === undefined) {
       this.cycleTime = ns.getWeakenTime(this.target)
     } else {
       this.cycleTime = cycleTime
     }
-    for (const server in network.servers) {
-      if (network.servers[server].hasAdminRights) {
-        if (server == home) {
-          this.availableRam[server] = Math.max(network.servers[server].maxRam - homeReservedRam, 0)
+
+    const networkServersSortedByRam = Array.from(network.servers.keys()).sort((lhs, rhs) => {
+      return (network.servers.get(lhs)?.maxRam ?? 0) - (network.servers.get(rhs)?.maxRam ?? 0)
+    })
+
+    networkServersSortedByRam.forEach(server => {
+      if (network.servers.get(server)?.hasAdminRights) {
+        if (server === home) {
+          this.availableRam.set(server, Math.max((network.servers.get(server)?.maxRam ?? 0) - homeReservedRam, 0))
         } else {
-          this.availableRam[server] = network.servers[server].maxRam
+          this.availableRam.set(server, network.servers.get(server)?.maxRam ?? 0)
         }
       }
-    }
+    })
   }
 
   schedule(ns: NS, batch: Batch) : boolean {
