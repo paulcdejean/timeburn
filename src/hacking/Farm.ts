@@ -1,9 +1,8 @@
 import { Capabilities, getCapabilityRam } from "@/capabilities/Capabilities"
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { home, homeReservedRam, thisScript } from "@/constants"
 import { Network } from "@/hacking/network"
 import { BasicHGWOptions, NS, RunOptions } from "@ns"
-import { Batch } from "./types"
+import type { Batch } from "./types"
 
 interface ExecSpawn {
   capability : Capabilities
@@ -68,6 +67,9 @@ export class Farm {
       
       
       for (const [server, simulatedRam] of simulatedAvailableRam) {
+        if (operation.minimumCores > ns.getServer(server).cpuCores) {
+          continue
+        }
         if (simulatedRam >= operationScriptRam * currentThreads) {
           // Attempt to put the operation on a single server
           const hgwOptions : BasicHGWOptions = {
