@@ -1,7 +1,7 @@
 import { Capabilities, getCapabilityRam } from "@/capabilities/Capabilities"
-import { home, homeReservedRam, thisScript } from "@/constants"
+import { CompletedProgramName, home, homeReservedRam, thisScript } from "@/constants"
 import { Network } from "@/hacking/network"
-import { BasicHGWOptions, NS, RunOptions } from "@ns"
+import { BasicHGWOptions, NS, RunOptions, Server } from "@ns"
 import type { Batch } from "./types"
 
 interface ExecSpawn {
@@ -17,12 +17,30 @@ export class Farm {
   private plan : ExecSpawn[] = []
   private cycleTime : number
   readonly target : string
+  private targetServer : Server
+  private weakenTime : number
+  private growTime : number
+  private hackTime : number
 
-  constructor(ns: NS, network: Network, target: string, cycleTime?: number) {
+  constructor(ns: NS, network: Network, target: Server, cycleTime?: number) {
     this.availableRam = new Map()
-    this.target = target
+    this.targetServer = target
+    this.target = target.hostname
+
+    const player = ns.getPlayer()
+
+    if (ns.fileExists(CompletedProgramName.formulas, home)) {
+      this.weakenTime = ns.formulas.hacking.weakenTime(this.targetServer, player)
+      this.growTime = ns.formulas.hacking.growTime(this.targetServer, player)
+      this.hackTime = ns.formulas.hacking.hackTime(this.targetServer, player)
+    } else {
+      this.weakenTime = ns.getWeakenTime(this.target)
+      this.growTime = ns.getGrowTime(this.target)
+      this.hackTime = ns.getHackTime(this.target)
+    }
+
     if(cycleTime === undefined) {
-      this.cycleTime = ns.getWeakenTime(this.target)
+      this.cycleTime = this.weakenTime
     } else {
       this.cycleTime = cycleTime
     }
@@ -46,10 +64,6 @@ export class Farm {
     const simulatedAvailableRam = new Map(this.availableRam)
     const simulatedPlan : ExecSpawn[] = []
 
-    const weakenTime = ns.getWeakenTime(this.target)
-    const hackTime = ns.getHackTime(this.target)
-    const growTime = ns.getGrowTime(this.target)
-
     for (const operation of batch) {
       const operationScriptRam = getCapabilityRam(ns, operation.capability)
       let successfulPlan = false
@@ -58,13 +72,12 @@ export class Farm {
 
       let additionalMsec = 0
       if(operation.capability === Capabilities.Hack) {
-        additionalMsec = Math.max(this.cycleTime - hackTime, 0)
+        additionalMsec = Math.max(this.cycleTime - this.hackTime, 0)
       } else if(operation.capability === Capabilities.Grow) {
-        additionalMsec = Math.max(this.cycleTime - growTime, 0)
+        additionalMsec = Math.max(this.cycleTime - this.growTime, 0)
       } else if(operation.capability === Capabilities.Weaken) {
-        additionalMsec = Math.max(this.cycleTime - weakenTime, 0)
+        additionalMsec = Math.max(this.cycleTime - this.weakenTime, 0)
       }
-      
       
       for (const [server, simulatedRam] of simulatedAvailableRam) {
         if (operation.minimumCores > ns.getServer(server).cpuCores) {
@@ -115,7 +128,7 @@ export class Farm {
       }
     }
 
-    Object.assign(this.availableRam, simulatedAvailableRam)
+    this.availableRam = new Map(simulatedAvailableRam)
     this.plan.push(...simulatedPlan)
     return true
   }

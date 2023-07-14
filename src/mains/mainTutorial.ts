@@ -5,7 +5,7 @@ import { TutorialQuestChain } from "@/quests/TutorialQuests";
 import { checkQuests } from "@/quests/Quest";
 import { Network } from "@/hacking/network";
 import { Capabilities, upgradeCapabilities } from "@/capabilities/Capabilities";
-import { pickFarm } from "@/hacking/pickFarm";
+import { quickHack } from "@/hacking/farmingAlgos/quickHack";
 
 export const tutorialFunctions = Object.keys(staticList)
 
@@ -28,9 +28,11 @@ export async function mainTutorial(ns: NS): Promise<void> {
     if (!network.upToDate) {
       network.refresh()
     }
-    const farm = pickFarm(ns, network, capability)
-    ui.state.currentHackingTarget = farm.target
+    
+    // Designed to get 200k as fast as possible
+    const tutorialFarm = quickHack(ns, network, "foodnstuff")
+    ui.state.currentHackingTarget = tutorialFarm.target
     ui.update()
-    await farm.run(ns)
+    await tutorialFarm.run(ns)
   }
 }

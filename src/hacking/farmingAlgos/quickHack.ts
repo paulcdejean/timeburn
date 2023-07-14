@@ -7,7 +7,7 @@ import { Capabilities } from "@/capabilities/Capabilities";
 export function quickHack(ns: NS, network: Network, target: string) : Farm {
   ns.tprint(`Running farming algorithm "quickHack" on target ${target}`)
   const hackTime = ns.getHackTime(target)
-  const farm = new Farm(ns, network, target, hackTime)
+  const farm = new Farm(ns, network, ns.getServer(target), hackTime)
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const hackBatch : Batch = [{
