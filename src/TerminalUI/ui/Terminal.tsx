@@ -15,7 +15,12 @@ function Terminal(props: TerminalProps) {
     <>
       <style>{cssInline}</style>
       <div className={css.terminalbox}>
-        <button type="button" onClick={() => props.UIState.ns.exit()}>Exit</button>
+        <button type="button" onClick={() => {
+          try {
+            // This throws a ScriptDeath error, but React can't handle this
+            props.UIState.ns.exit()
+          } catch { /* empty */ }
+        }}>Exit</button>
         <hr />
         Target = {props.UIState.currentHackingTarget}
         <hr />

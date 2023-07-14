@@ -1,10 +1,4 @@
-Add core increase detection
-
-Refactor availableRam from farm, to be sorted so we can try and schedule the smaller servers first...
-
 standardFormulasTargetting
-
-Refactor cracks.ts to add home and change enum, also pull it into network.ts probably
 
 Pass a child and a gamestate to terminal UI constructor? To allow multiple types of UIs?
 
