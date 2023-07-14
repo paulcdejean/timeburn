@@ -44,7 +44,7 @@ export class Farm {
   }
 
   schedule(ns: NS, batch: Batch) : boolean {
-    const simulatedAvailableRam = Object.assign({}, this.availableRam)
+    const simulatedAvailableRam = new Map(this.availableRam)
     const simulatedPlan : ExecSpawn[] = []
 
     const weakenTime = ns.getWeakenTime(this.target)
@@ -67,8 +67,8 @@ export class Farm {
       }
       
       
-      for (const server in simulatedAvailableRam) {
-        if (simulatedAvailableRam[server] >= operationScriptRam * currentThreads) {
+      for (const [server, simulatedRam] of simulatedAvailableRam) {
+        if (simulatedRam >= operationScriptRam * currentThreads) {
           // Attempt to put the operation on a single server
           const hgwOptions : BasicHGWOptions = {
             threads: currentThreads,
@@ -83,11 +83,11 @@ export class Farm {
             hgwOptions: hgwOptions,
             ram: operationScriptRam,
           })
-          simulatedAvailableRam[server] = simulatedAvailableRam[server] - (operationScriptRam * currentThreads)
+          simulatedAvailableRam.set(server, simulatedRam - (operationScriptRam * currentThreads))
           successfulPlan = true
           break
         } else if (operation.allowSpread) {
-          const attemptingThreads =  Math.floor(simulatedAvailableRam[server] / operationScriptRam)
+          const attemptingThreads =  Math.floor(simulatedRam / operationScriptRam)
           if (attemptingThreads > 0 ) {
             const hgwOptions : BasicHGWOptions = {
               threads: attemptingThreads,
@@ -103,7 +103,7 @@ export class Farm {
               ram: operationScriptRam,
             })
           }
-          simulatedAvailableRam[server] = simulatedAvailableRam[server] - (operationScriptRam * attemptingThreads)
+          simulatedAvailableRam.set(server, simulatedRam - (operationScriptRam * attemptingThreads))
           currentThreads = currentThreads - attemptingThreads
         }
       }
