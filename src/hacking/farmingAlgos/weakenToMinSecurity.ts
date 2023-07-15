@@ -3,8 +3,8 @@ import { Farm } from "@/hacking/Farm";
 import type { Batch } from "../types";
 
 export function weakenToMinSecurity(farm: Farm) : Farm {
-  const minSecurity = farm.target.minDifficulty ?? 1
-  let currentSecurity = farm.target.hackDifficulty ?? 1
+  const minSecurity = farm.target.minDifficulty
+  let currentSecurity = farm.target.hackDifficulty
 
   for (let currentCores = farm.maxCores; currentCores >= 1; currentCores/=2) {
     if (currentSecurity > minSecurity) {

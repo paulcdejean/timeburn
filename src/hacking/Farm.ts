@@ -16,7 +16,7 @@ export class Farm {
   private availableRam : Map<string, number>
   private plan : ExecSpawn[] = []
   private cycleTime : number
-  readonly target : Server
+  readonly target : Required<Server>
   private weakenTime : number
   private growTime : number
   private hackTime : number
@@ -26,7 +26,45 @@ export class Farm {
   constructor(ns: NS, network: Network, target: Server, cycleTime?: number) {
     this.availableRam = new Map()
     this.ns = ns
-    this.target = target
+    if(target.backdoorInstalled === undefined
+      || target.baseDifficulty === undefined
+      || target.hackDifficulty === undefined
+      || target.minDifficulty === undefined
+      || target.moneyAvailable === undefined
+      || target.moneyMax === undefined
+      || target.numOpenPortsRequired === undefined
+      || target.openPortCount === undefined
+      || target.requiredHackingSkill === undefined
+      || target.serverGrowth === undefined) {
+        throw new Error(`Target ${target.hostname} is not a valid farming target`)
+    } else {
+      this.target = {
+        hostname: target.hostname,
+        ip: target.ip,
+        sshPortOpen: target.sshPortOpen,
+        ftpPortOpen: target.ftpPortOpen,
+        smtpPortOpen: target.smtpPortOpen,
+        httpPortOpen: target.httpPortOpen,
+        sqlPortOpen: target.sqlPortOpen,
+        hasAdminRights: target.hasAdminRights,
+        cpuCores: target.cpuCores,
+        isConnectedTo: target.isConnectedTo,
+        ramUsed: target.ramUsed,
+        maxRam: target.maxRam,
+        organizationName: target.organizationName,
+        purchasedByPlayer: target.purchasedByPlayer,
+        backdoorInstalled: target.backdoorInstalled,
+        baseDifficulty: target.baseDifficulty,
+        hackDifficulty: target.hackDifficulty,
+        minDifficulty: target.minDifficulty,
+        moneyAvailable: target.moneyAvailable,
+        moneyMax: target.moneyMax,
+        numOpenPortsRequired: target.numOpenPortsRequired,
+        openPortCount: target.openPortCount,
+        requiredHackingSkill: target.requiredHackingSkill,
+        serverGrowth: target.serverGrowth,
+      }
+    }
 
     const player = ns.getPlayer()
 
