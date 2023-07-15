@@ -32,5 +32,7 @@ export async function mainStandardFormulas(ns: NS): Promise<void> {
     ui.update()
     ns.tprint("Starting farm")
     await farm.run()
+    ns.tprint("Farm finished")
+    await ns.asleep(30000)
   }
 }
