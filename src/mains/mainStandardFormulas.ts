@@ -18,7 +18,7 @@ export async function mainStandardFormulas(ns: NS): Promise<void> {
   ns.atExit(() => {
     ui.close()
   })
-  await ns.asleep(0)
+  await ns.asleep(2000)
 
   while (!upgradeCapabilities(ns, capability)) {
     attemptPserverUpgrade(ns, network)
@@ -29,7 +29,9 @@ export async function mainStandardFormulas(ns: NS): Promise<void> {
     // TODO
     const target = "joesguns"
     const farm = new Farm(ns, network, ns.getServer(target))
+    ns.tprint(performance.now())
     HWGW(farm)
+    ns.tprint(performance.now())
     await ns.asleep(0)
     ui.state.currentHackingTarget = farm.target
     ui.update()

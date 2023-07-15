@@ -196,6 +196,8 @@ export class Farm {
     // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
     const promiseArray : Promise<true | void>[] = [this.ns.asleep(this.cycleTime)]
 
+    this.ns.tprint(`DEBUG: Running farm with ${this.plan.length} scripts`)
+
     let port = this.minimumPort
     for(const spawn of this.plan) {
       const runOptions: RunOptions = {
