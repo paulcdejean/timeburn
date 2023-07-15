@@ -24,7 +24,7 @@ export async function mainStandardFormulas(ns: NS): Promise<void> {
       network.refresh()
     }
     // TODO
-    const target = "hong-fang-tea"
+    const target = "harakiri-sushi"
     const farm = new Farm(ns, network, ns.getServer(target))
     HWGW(farm)
     ui.state.currentHackingTarget = farm.target
