@@ -22,6 +22,7 @@ export class Farm {
   private hackTime : number
   readonly ns : NS
   readonly maxCores : number
+  private minimumPort = 20000
 
   constructor(ns: NS, network: Network, target: Server, cycleTime?: number) {
     if(target.backdoorInstalled === undefined
@@ -176,20 +177,26 @@ export class Farm {
     return true
   }
 
-  private runSingle(spawn: ExecSpawn, runOptions: RunOptions) {
+  private runSingle(spawn: ExecSpawn, runOptions: RunOptions, port: number) {
     const pid = this.ns.exec(thisScript, spawn.host, runOptions,
       spawn.capability,
       this.target.hostname,
       spawn.hgwOptions.additionalMsec ?? 0,
       spawn.hgwOptions.stock ?? false,
-      spawn.hgwOptions.threads ?? 1
+      spawn.hgwOptions.threads ?? 1,
+      port
     )
     if (pid === 0) {
       this.ns.tprint(`ERROR: Exec in farm run failed on host ${spawn.host}`)
     }
   }
 
-  run() : Promise<true> {
+  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+  run() : Promise<(true | void)[]> {
+    // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+    const promiseArray : Promise<true | void>[] = [this.ns.asleep(this.cycleTime)]
+
+    let port = this.minimumPort
     for(const spawn of this.plan) {
       const runOptions: RunOptions = {
         preventDuplicates: false,
@@ -198,9 +205,11 @@ export class Farm {
         ramOverride: spawn.ram
       }
 
-      setTimeout(this.runSingle.bind(this), 0, spawn, runOptions)
+      setTimeout(this.runSingle.bind(this), 0, spawn, runOptions, port)
+      promiseArray.push(this.ns.getPortHandle(port).nextWrite())
+      port++
     }
 
-    return this.ns.asleep(this.cycleTime)
+    return Promise.all(promiseArray)
   }
 }

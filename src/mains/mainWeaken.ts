@@ -11,4 +11,6 @@ export async function mainWeaken(ns: NS) : Promise<void> {
     stock: ns.args[3] as boolean,
     threads: (ns.args[4] as number)
   })
+  ns.writePort(ns.args[5] as number, 0)
+  ns.clearPort(ns.args[5] as number)
 }
