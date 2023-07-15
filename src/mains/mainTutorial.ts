@@ -5,7 +5,8 @@ import { TutorialQuestChain } from "@/quests/TutorialQuests";
 import { checkQuests } from "@/quests/Quest";
 import { Network } from "@/hacking/network";
 import { Capabilities, upgradeCapabilities } from "@/capabilities/Capabilities";
-import { quickHack } from "@/hacking/farmingAlgos/quickHack";
+import { onlyHack } from "@/hacking/farmingAlgos/onlyHack";
+import { Farm } from "@/hacking/Farm";
 
 export const tutorialFunctions = Object.keys(staticList)
 
@@ -30,9 +31,12 @@ export async function mainTutorial(ns: NS): Promise<void> {
     }
     
     // Designed to get 200k as fast as possible
-    const tutorialFarm = quickHack(ns, network, "foodnstuff")
+
+    const tutorialTarget = "foodnstuff"
+    const tutorialFarm = new Farm(ns, network, ns.getServer(tutorialTarget), ns.getHackTime(tutorialTarget))
+    onlyHack(tutorialFarm)
     ui.state.currentHackingTarget = tutorialFarm.target
     ui.update()
-    await tutorialFarm.run(ns)
+    await tutorialFarm.run()
   }
 }

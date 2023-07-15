@@ -21,9 +21,11 @@ export class Farm {
   private weakenTime : number
   private growTime : number
   private hackTime : number
+  private ns : NS
 
   constructor(ns: NS, network: Network, target: Server, cycleTime?: number) {
     this.availableRam = new Map()
+    this.ns = ns
     this.targetServer = target
     this.target = target.hostname
 
@@ -60,12 +62,12 @@ export class Farm {
     })
   }
 
-  schedule(ns: NS, batch: Batch) : boolean {
+  schedule(batch: Batch) : boolean {
     const simulatedAvailableRam = new Map(this.availableRam)
     const simulatedPlan : ExecSpawn[] = []
 
     for (const operation of batch) {
-      const operationScriptRam = getCapabilityRam(ns, operation.capability)
+      const operationScriptRam = getCapabilityRam(this.ns, operation.capability)
       let successfulPlan = false
 
       let currentThreads = operation.threads
@@ -80,7 +82,7 @@ export class Farm {
       }
       
       for (const [server, simulatedRam] of simulatedAvailableRam) {
-        if (operation.minimumCores > ns.getServer(server).cpuCores) {
+        if (operation.minimumCores > this.ns.getServer(server).cpuCores) {
           continue
         }
         if (simulatedRam >= operationScriptRam * currentThreads) {
@@ -133,7 +135,7 @@ export class Farm {
     return true
   }
 
-  run(ns: NS) : Promise<true> {
+  run() : Promise<true> {
     for(const spawn in this.plan) {
       const runOptions: RunOptions = {
         preventDuplicates: false,
@@ -142,7 +144,7 @@ export class Farm {
         ramOverride: this.plan[spawn].ram
       }
 
-      const pid = ns.exec(thisScript, this.plan[spawn].host, runOptions,
+      const pid = this.ns.exec(thisScript, this.plan[spawn].host, runOptions,
         this.plan[spawn].capability,
         this.target,
         this.plan[spawn].hgwOptions.additionalMsec ?? 0,
@@ -151,11 +153,11 @@ export class Farm {
       )
 
       if (pid === 0) {
-        ns.tprint(`ERROR: Exec in farm run failed on host ${this.plan[spawn].host}`)
-        return ns.asleep(0)
+        this.ns.tprint(`ERROR: Exec in farm run failed on host ${this.plan[spawn].host}`)
+        return this.ns.asleep(0)
       }
     }
 
-    return ns.asleep(this.cycleTime + 500)
+    return this.ns.asleep(this.cycleTime + 500)
   }
 }
