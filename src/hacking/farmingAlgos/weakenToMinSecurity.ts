@@ -11,14 +11,14 @@ export function weakenToMinSecurity(farm: Farm) : Farm {
       const weakenPerThread = farm.ns.weakenAnalyze(1, currentCores)
       let weakenThreads = Math.ceil((currentSecurity - minSecurity) / weakenPerThread)
       for (weakenThreads; weakenThreads > 0; weakenThreads--) {
-        const weakenBatch : Batch = [{
+        const batch : Batch = [{
           capability: Capabilities.Weaken,
           threads: weakenThreads,
           allowSpread: true,
           affectStocks: false,
           minimumCores: currentCores,
         }]
-        if(farm.schedule(weakenBatch)) {
+        if(farm.schedule(batch)) {
           break
         }
       }

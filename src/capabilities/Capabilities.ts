@@ -35,13 +35,13 @@ export function upgradeCapabilities(ns: NS, currentCapability: Capabilities) : b
   if (currentCapability === Capabilities.Tutorial && ns.getServerMaxRam(home) >= 32) {
     if (!upgradeCapabilities(ns, Capabilities.Standard)) {
       ns.tprint(`Upgrading to capability standard with ${getCapabilityRam(ns, Capabilities.Standard)}GB RAM`)
-      ns.exec(thisScript, home, 1, Capabilities.Standard)
+      ns.exec(thisScript, home, {ramOverride: getCapabilityRam(ns, Capabilities.Standard)}, Capabilities.Standard)
     }
     return true
   } else if (currentCapability === Capabilities.Standard && ns.fileExists(CompletedProgramName.formulas, home)) {
     if (!upgradeCapabilities(ns, Capabilities.StandardFormulas)) {
       ns.tprint(`Upgrading to capability standard+formulas with ${getCapabilityRam(ns, Capabilities.StandardFormulas)}GB RAM`)
-      ns.exec(thisScript, home, 1, Capabilities.StandardFormulas)
+      ns.exec(thisScript, home, {ramOverride: getCapabilityRam(ns, Capabilities.StandardFormulas)}, Capabilities.StandardFormulas)
     }
     return true
   }
