@@ -24,8 +24,6 @@ export class Farm {
   readonly maxCores : number
 
   constructor(ns: NS, network: Network, target: Server, cycleTime?: number) {
-    this.availableRam = new Map()
-    this.ns = ns
     if(target.backdoorInstalled === undefined
       || target.baseDifficulty === undefined
       || target.hackDifficulty === undefined
@@ -65,6 +63,9 @@ export class Farm {
         serverGrowth: target.serverGrowth,
       }
     }
+
+    this.availableRam = new Map()
+    this.ns = ns
 
     const player = ns.getPlayer()
 
