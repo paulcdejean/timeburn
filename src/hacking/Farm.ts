@@ -16,29 +16,31 @@ export class Farm {
   private availableRam : Map<string, number>
   private plan : ExecSpawn[] = []
   private cycleTime : number
-  readonly target : string
-  private targetServer : Server
+  readonly target : Server
   private weakenTime : number
   private growTime : number
   private hackTime : number
-  private ns : NS
+  readonly ns : NS
+  readonly maxCores : number
 
   constructor(ns: NS, network: Network, target: Server, cycleTime?: number) {
     this.availableRam = new Map()
     this.ns = ns
-    this.targetServer = target
-    this.target = target.hostname
+    this.target = target
 
     const player = ns.getPlayer()
 
+    // TODO: Zanny hacknet logic lol
+    this.maxCores = ns.getServer(home).cpuCores
+
     if (ns.fileExists(CompletedProgramName.formulas, home)) {
-      this.weakenTime = ns.formulas.hacking.weakenTime(this.targetServer, player)
-      this.growTime = ns.formulas.hacking.growTime(this.targetServer, player)
-      this.hackTime = ns.formulas.hacking.hackTime(this.targetServer, player)
+      this.weakenTime = ns.formulas.hacking.weakenTime(this.target, player)
+      this.growTime = ns.formulas.hacking.growTime(this.target, player)
+      this.hackTime = ns.formulas.hacking.hackTime(this.target, player)
     } else {
-      this.weakenTime = ns.getWeakenTime(this.target)
-      this.growTime = ns.getGrowTime(this.target)
-      this.hackTime = ns.getHackTime(this.target)
+      this.weakenTime = ns.getWeakenTime(this.target.hostname)
+      this.growTime = ns.getGrowTime(this.target.hostname)
+      this.hackTime = ns.getHackTime(this.target.hostname)
     }
 
     if(cycleTime === undefined) {
@@ -146,7 +148,7 @@ export class Farm {
 
       const pid = this.ns.exec(thisScript, this.plan[spawn].host, runOptions,
         this.plan[spawn].capability,
-        this.target,
+        this.target.hostname,
         this.plan[spawn].hgwOptions.additionalMsec ?? 0,
         this.plan[spawn].hgwOptions.stock ?? false,
         this.plan[spawn].hgwOptions.threads ?? 1

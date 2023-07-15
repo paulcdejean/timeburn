@@ -1,4 +1,6 @@
-standardFormulasTargetting
+Farming algo is: farm -> farm
+farm.simulate returns a new server object
+
 
 Pass a child and a gamestate to terminal UI constructor? To allow multiple types of UIs?
 

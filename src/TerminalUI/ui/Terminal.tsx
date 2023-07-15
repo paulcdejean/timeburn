@@ -22,7 +22,13 @@ function Terminal(props: TerminalProps) {
           } catch { /* empty */ }
         }}>Exit</button>
         <hr />
-        Target = {props.UIState.currentHackingTarget}
+        <p>
+          Target = {props.UIState.currentHackingTarget.hostname}
+          <br />
+          Target security = {props.UIState.currentHackingTarget.hackDifficulty}
+          <br />
+          Target money = {props.UIState.currentHackingTarget.moneyAvailable}
+        </p>
         <hr />
         Capability = {props.UIState.capability}
         <hr />

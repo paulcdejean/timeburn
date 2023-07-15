@@ -25,7 +25,7 @@ export class TerminalUI {
     this.state = {
       capability: capability,
       ns: ns,
-      currentHackingTarget: noodles,
+      currentHackingTarget: ns.getServer(noodles),
     }
 
     this.render(ns)

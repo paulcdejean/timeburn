@@ -2,8 +2,8 @@ import { NS } from "@ns";
 import { TerminalUI } from "@/TerminalUI/TerminalUI"
 import { Network } from "@/hacking/network";
 import { Capabilities, upgradeCapabilities } from "@/capabilities/Capabilities";
-import { onlyHack } from "@/hacking/farmingAlgos/onlyHack";
 import { Farm } from "@/hacking/Farm";
+import { HWGW } from "@/hacking/farmingAlgos/HWGW";
 
 export async function mainStandardFormulas(ns: NS): Promise<void> {
   const capability = Capabilities.StandardFormulas
@@ -24,11 +24,11 @@ export async function mainStandardFormulas(ns: NS): Promise<void> {
       network.refresh()
     }
     // TODO
-    const tutorialTarget = "sigma-cosmetics"
-    const tutorialFarm = new Farm(ns, network, ns.getServer(tutorialTarget), ns.getHackTime(tutorialTarget))
-    onlyHack(tutorialFarm)
-    ui.state.currentHackingTarget = tutorialFarm.target
+    const target = "joesguns"
+    const farm = new Farm(ns, network, ns.getServer(target))
+    HWGW(farm)
+    ui.state.currentHackingTarget = farm.target
     ui.update()
-    await tutorialFarm.run()
+    await farm.run()
   }
 }
