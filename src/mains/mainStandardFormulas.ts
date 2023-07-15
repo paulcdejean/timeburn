@@ -4,6 +4,7 @@ import { Network } from "@/hacking/network";
 import { Capabilities, upgradeCapabilities } from "@/capabilities/Capabilities";
 import { Farm } from "@/hacking/Farm";
 import { HWGW } from "@/hacking/farmingAlgos/HWGW";
+import { attemptPserverUpgrade } from "@/hacking/pserver/attemptPserverUpgrade";
 
 export async function mainStandardFormulas(ns: NS): Promise<void> {
   const capability = Capabilities.StandardFormulas
@@ -18,7 +19,7 @@ export async function mainStandardFormulas(ns: NS): Promise<void> {
   })
 
   while (!upgradeCapabilities(ns, capability)) {
-    // TODO: attemptPserverUpgrade(ns, network)
+    attemptPserverUpgrade(ns, network)
 
     if (!network.upToDate) {
       network.refresh()
@@ -29,6 +30,7 @@ export async function mainStandardFormulas(ns: NS): Promise<void> {
     HWGW(farm)
     ui.state.currentHackingTarget = farm.target
     ui.update()
+    ns.tprint("Starting farm")
     await farm.run()
   }
 }

@@ -195,10 +195,10 @@ export class Farm {
 
       if (pid === 0) {
         this.ns.tprint(`ERROR: Exec in farm run failed on host ${this.plan[spawn].host}`)
-        return this.ns.asleep(0)
+        return this.ns.asleep(this.cycleTime + 5000)
       }
     }
 
-    return this.ns.asleep(this.cycleTime + 500)
+    return this.ns.asleep(this.cycleTime + 5000)
   }
 }
