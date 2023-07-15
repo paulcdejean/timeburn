@@ -38,7 +38,7 @@ export function HWGW(farm: Farm) : Farm {
     }
   }
 
-  //onlyWeaken(farm)
+  onlyWeaken(farm)
   return farm
 }
 
