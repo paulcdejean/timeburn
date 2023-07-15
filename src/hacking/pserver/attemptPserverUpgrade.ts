@@ -4,7 +4,8 @@ import { NS } from "@ns";
 
 export function attemptPserverUpgrade(ns: NS, network: Network) {
   const minimumCost = 1e9
-
+  return
+  
   let ram = ns.getPurchasedServerMaxRam()
   let cost = ns.getPurchasedServerCost(ram)
 

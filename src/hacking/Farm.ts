@@ -176,29 +176,32 @@ export class Farm {
     return true
   }
 
+  private runSingle(spawn: ExecSpawn, runOptions: RunOptions) {
+    const pid = this.ns.exec(thisScript, spawn.host, runOptions,
+      spawn.capability,
+      this.target.hostname,
+      spawn.hgwOptions.additionalMsec ?? 0,
+      spawn.hgwOptions.stock ?? false,
+      spawn.hgwOptions.threads ?? 1
+    )
+    if (pid === 0) {
+      this.ns.tprint(`ERROR: Exec in farm run failed on host ${spawn.host}`)
+    }
+  }
+
   run() : Promise<true> {
-    for(const spawn in this.plan) {
+    for(const spawn of this.plan) {
       const runOptions: RunOptions = {
         preventDuplicates: false,
         temporary: true,
-        threads: this.plan[spawn].threads,
-        ramOverride: this.plan[spawn].ram
+        threads: spawn.threads,
+        ramOverride: spawn.ram
       }
 
-      const pid = this.ns.exec(thisScript, this.plan[spawn].host, runOptions,
-        this.plan[spawn].capability,
-        this.target.hostname,
-        this.plan[spawn].hgwOptions.additionalMsec ?? 0,
-        this.plan[spawn].hgwOptions.stock ?? false,
-        this.plan[spawn].hgwOptions.threads ?? 1
-      )
-
-      if (pid === 0) {
-        this.ns.tprint(`ERROR: Exec in farm run failed on host ${this.plan[spawn].host}`)
-        return this.ns.asleep(this.cycleTime + 5000)
-      }
+      setTimeout(this.runSingle.bind(this), 0, spawn, runOptions)
+      // this.runSingle(spawn, runOptions)
     }
 
-    return this.ns.asleep(this.cycleTime + 5000)
+    return this.ns.asleep(this.cycleTime + 10000)
   }
 }
