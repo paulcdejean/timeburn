@@ -1,4 +1,12 @@
-Farming algo is: farm -> farm
+Proper pserver code
+
+Fix the lag
+
+Onexit kill farm scripts
+
+Don't have arbitrary waits after the farm run
+
+
 farm.simulate returns a new server object
 
 
