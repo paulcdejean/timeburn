@@ -6,7 +6,7 @@ export function weakenToMinSecurity(farm: Farm) : Farm {
   const minSecurity = farm.target.minDifficulty
   let currentSecurity = farm.target.hackDifficulty
 
-  for (let currentCores = farm.maxCores; currentCores >= 1; currentCores/=2) {
+  for (let currentCores = farm.maxCores; currentCores >= 1; currentCores--) {
     if (currentSecurity > minSecurity) {
       const weakenPerThread = farm.ns.weakenAnalyze(1, currentCores)
       let weakenThreads = Math.ceil((currentSecurity - minSecurity) / weakenPerThread)

@@ -15,7 +15,7 @@ export function HWGW(farm: Farm) : Farm {
   preppedTarget.hackDifficulty = preppedTarget.minDifficulty
   preppedTarget.moneyAvailable = preppedTarget.moneyMax
 
-  for (let currentCores = farm.maxCores; currentCores >= 1; currentCores/=2) {
+  for (let currentCores = farm.maxCores; currentCores >= 1; currentCores--) {
     let highscore = 0
     let bestHackThreads = 0
 

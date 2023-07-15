@@ -199,7 +199,6 @@ export class Farm {
       }
 
       setTimeout(this.runSingle.bind(this), 0, spawn, runOptions)
-      // this.runSingle(spawn, runOptions)
     }
 
     return this.ns.asleep(this.cycleTime + 10000)

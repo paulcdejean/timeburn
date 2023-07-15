@@ -8,7 +8,7 @@ export function growToMaxMoney(farm: Farm) : Farm {
   minSecurityTarget.hackDifficulty = minSecurityTarget.minDifficulty
 
   while (minSecurityTarget.moneyAvailable < minSecurityTarget.moneyMax) {
-    for (let currentCores = farm.maxCores; currentCores >= 1; currentCores/=2) {
+    for (let currentCores = farm.maxCores; currentCores >= 1; currentCores--) {
       let growThreads = Math.ceil(farm.ns.formulas.hacking.growThreads(minSecurityTarget, player, Infinity, currentCores))
 
       for(growThreads; growThreads > 0; growThreads--) {
@@ -34,9 +34,7 @@ export function growToMaxMoney(farm: Farm) : Farm {
           break
         }
       }
-      if (growThreads === 0) {
-        return farm
-      } else {
+      if (growThreads > 0) {
         const growPercentage = farm.ns.formulas.hacking.growPercent(minSecurityTarget, growThreads, player, currentCores)
         minSecurityTarget.moneyAvailable = Math.min(minSecurityTarget.moneyAvailable * growPercentage, minSecurityTarget.moneyMax)
       }

@@ -8,6 +8,7 @@ import { mainHack } from "@/mains/mainHack"
 import { mainGrow } from "@/mains/mainGrow"
 import { mainWeaken } from "@/mains/mainWeaken"
 import { mainStandardFormulas } from "./mains/mainStandardFormulas"
+import { home } from "./constants"
 
 export async function main(ns: NS): Promise<void> {
   // Prevents spam, forgive the magic word here.
@@ -22,6 +23,9 @@ export async function main(ns: NS): Promise<void> {
   let capability = Capabilities.Tutorial
   if(ns.args.length > 0) {
     capability = ns.args[0] as Capabilities
+  } else if (ns.getHostname() !== home) {
+    ns.tprint("ERROR: This script should only be run on home")
+    return
   }
 
   if(upgradeCapabilities(ns, capability)) {
