@@ -28,13 +28,12 @@ export async function mainStandardFormulas(ns: NS): Promise<void> {
       network.refresh()
     }
     // TODO
-    const target = "the-hub"
+    const target = "rho-construction"
     const farm = new Farm(ns, network, ns.getServer(target), homeReservedRam)
     HWGW(farm)
     await ns.asleep(0)
     ui.state.currentHackingTarget = farm.target
     ui.update()
-    ns.tprint("Starting farm")
     const startTime = performance.now()
     const startingMoney = ns.getMoneySources().sinceInstall.hacking
     await farm.run()
