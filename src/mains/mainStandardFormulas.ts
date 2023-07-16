@@ -27,7 +27,7 @@ export async function mainStandardFormulas(ns: NS): Promise<void> {
       network.refresh()
     }
     // TODO
-    const target = "joesguns"
+    const target = "rho-construction"
     const farm = new Farm(ns, network, ns.getServer(target))
     ns.tprint(performance.now())
     HWGW(farm)
