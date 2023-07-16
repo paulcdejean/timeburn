@@ -9,6 +9,7 @@ import { milisecondsInASecond } from "@/constants";
 
 export async function mainStandardFormulas(ns: NS): Promise<void> {
   const capability = Capabilities.StandardFormulas
+  const homeReservedRam = 32
 
   const network = new Network(ns)
 
@@ -27,8 +28,8 @@ export async function mainStandardFormulas(ns: NS): Promise<void> {
       network.refresh()
     }
     // TODO
-    const target = "rho-construction"
-    const farm = new Farm(ns, network, ns.getServer(target))
+    const target = "the-hub"
+    const farm = new Farm(ns, network, ns.getServer(target), homeReservedRam)
     HWGW(farm)
     await ns.asleep(0)
     ui.state.currentHackingTarget = farm.target

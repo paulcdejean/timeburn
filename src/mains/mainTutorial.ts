@@ -12,6 +12,7 @@ export const tutorialFunctions = Object.keys(staticList)
 
 export async function mainTutorial(ns: NS): Promise<void> {
   const capability = Capabilities.Tutorial
+  const homeReservedRam = 32
 
   const network = new Network(ns)
 
@@ -33,7 +34,7 @@ export async function mainTutorial(ns: NS): Promise<void> {
     // Designed to get 200k as fast as possible
 
     const tutorialTarget = "foodnstuff"
-    const tutorialFarm = new Farm(ns, network, ns.getServer(tutorialTarget), ns.getHackTime(tutorialTarget))
+    const tutorialFarm = new Farm(ns, network, ns.getServer(tutorialTarget), homeReservedRam, ns.getHackTime(tutorialTarget))
     onlyHack(tutorialFarm)
     ui.state.currentHackingTarget = tutorialFarm.target
     ui.update()

@@ -1,5 +1,5 @@
 import { Capabilities, getCapabilityRam } from "@/capabilities/Capabilities"
-import { CompletedProgramName, home, homeReservedRam, thisScript } from "@/constants"
+import { CompletedProgramName, home, thisScript } from "@/constants"
 import { Network } from "@/hacking/network"
 import { BasicHGWOptions, NS, RunOptions, Server } from "@ns"
 import type { Batch } from "./types"
@@ -23,8 +23,9 @@ export class Farm {
   readonly ns : NS
   readonly maxCores : number
   private minimumPort = 20000
+  private homeReservedRam : number
 
-  constructor(ns: NS, network: Network, target: Server, cycleTime?: number) {
+  constructor(ns: NS, network: Network, target: Server, homeReservedRam: number, cycleTime?: number) {
     if(target.backdoorInstalled === undefined
       || target.baseDifficulty === undefined
       || target.hackDifficulty === undefined
@@ -65,6 +66,8 @@ export class Farm {
       }
     }
 
+    this.homeReservedRam = homeReservedRam
+
     this.availableRam = new Map()
     this.ns = ns
 
@@ -96,7 +99,7 @@ export class Farm {
     networkServersSortedByRam.forEach(server => {
       if (network.servers.get(server)?.hasAdminRights) {
         if (server === home) {
-          this.availableRam.set(server, Math.max((network.servers.get(server)?.maxRam ?? 0) - homeReservedRam, 0))
+          this.availableRam.set(server, Math.max((network.servers.get(server)?.maxRam ?? 0) - this.homeReservedRam, 0))
         } else {
           this.availableRam.set(server, network.servers.get(server)?.maxRam ?? 0)
         }
