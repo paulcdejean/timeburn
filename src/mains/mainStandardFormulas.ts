@@ -29,9 +29,7 @@ export async function mainStandardFormulas(ns: NS): Promise<void> {
     // TODO
     const target = "rho-construction"
     const farm = new Farm(ns, network, ns.getServer(target))
-    ns.tprint(performance.now())
     HWGW(farm)
-    ns.tprint(performance.now())
     await ns.asleep(0)
     ui.state.currentHackingTarget = farm.target
     ui.update()
